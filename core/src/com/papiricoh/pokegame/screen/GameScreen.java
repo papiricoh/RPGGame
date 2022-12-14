@@ -7,13 +7,15 @@ import com.papiricoh.pokegame.PokeGame;
 import com.papiricoh.pokegame.Settings;
 import com.papiricoh.pokegame.controller.PlayerController;
 import com.papiricoh.pokegame.model.Actor;
+import com.papiricoh.pokegame.model.Camera;
 import com.papiricoh.pokegame.model.TileMap;
 
 public class GameScreen extends AbstractScreen {
 
     private TileMap tileMap;
-    private Actor actor;
+    private Actor player;
     private PlayerController controller;
+    private Camera camera;
 
     private SpriteBatch batch;
     private Texture characterStanding;
@@ -24,8 +26,9 @@ public class GameScreen extends AbstractScreen {
         characterStanding = new Texture("player/playerTexture.png");
         batch = new SpriteBatch();
         tileMap = new TileMap(20, 20);
-        actor = new Actor(tileMap, 1, 1);
-        controller = new PlayerController(actor);
+        player = new Actor(tileMap, 1, 1);
+        controller = new PlayerController(player);
+        camera = new Camera();
     }
 
     @Override
@@ -40,17 +43,21 @@ public class GameScreen extends AbstractScreen {
 
     @Override
     public void render(float delta) {
+        camera.update(player.getX()+0.5f, player.getY()+0.5f);
         batch.begin();
+
+        float worldStartX = (float) Gdx.graphics.getWidth() / 2 - camera.getCameraX() * Settings.SCALED_TILE_SIZE;
+        float worldStartY = (float) Gdx.graphics.getHeight() / 2 - camera.getCameraY() * Settings.SCALED_TILE_SIZE;
 
         int mapWidth = tileMap.getWidth();
         int mapHeight = tileMap.getHeight();
         for (int x = 0; x < mapWidth; x++) {
             for (int y = 0; y < mapHeight; y++) {
-                batch.draw(tileMap.getTile(x, y).getTexture(), x * Settings.SCALED_TILE_SIZE, y * Settings.SCALED_TILE_SIZE, Settings.SCALED_TILE_SIZE, Settings.SCALED_TILE_SIZE);
+                batch.draw(tileMap.getTile(x, y).getTexture(), worldStartX + x * Settings.SCALED_TILE_SIZE, worldStartY + y * Settings.SCALED_TILE_SIZE, Settings.SCALED_TILE_SIZE, Settings.SCALED_TILE_SIZE);
             }
         }
 
-        batch.draw(characterStanding, actor.getX() * Settings.SCALED_TILE_SIZE, actor.getY() * Settings.SCALED_TILE_SIZE, Settings.SCALED_TILE_SIZE, Settings.SCALED_TILE_SIZE);
+        batch.draw(characterStanding, worldStartX + player.getX() * Settings.SCALED_TILE_SIZE, worldStartY + player.getY() * Settings.SCALED_TILE_SIZE, Settings.SCALED_TILE_SIZE, Settings.SCALED_TILE_SIZE);
         batch.end();
     }
 
