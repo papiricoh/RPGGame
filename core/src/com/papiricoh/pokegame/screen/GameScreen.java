@@ -43,7 +43,8 @@ public class GameScreen extends AbstractScreen {
 
     @Override
     public void render(float delta) {
-        camera.update(player.getX()+0.5f, player.getY()+0.5f);
+        player.update(delta);
+        camera.update(player.getWorldX()+0.5f, player.getWorldY()+0.5f);
         batch.begin();
 
         float worldStartX = (float) Gdx.graphics.getWidth() / 2 - camera.getCameraX() * Settings.SCALED_TILE_SIZE;
@@ -57,7 +58,7 @@ public class GameScreen extends AbstractScreen {
             }
         }
 
-        batch.draw(characterStanding, worldStartX + player.getX() * Settings.SCALED_TILE_SIZE, worldStartY + player.getY() * Settings.SCALED_TILE_SIZE, Settings.SCALED_TILE_SIZE, Settings.SCALED_TILE_SIZE);
+        batch.draw(characterStanding, worldStartX + player.getWorldX() * Settings.SCALED_TILE_SIZE, worldStartY + player.getWorldY() * Settings.SCALED_TILE_SIZE, Settings.SCALED_TILE_SIZE, Settings.SCALED_TILE_SIZE);
         batch.end();
     }
 
