@@ -34,10 +34,8 @@ public class Actor {
 
     public enum ACTOR_STATE {
         WALKING,
-        STANDING,
-        ;
+        STANDING
     }
-
     public void update(float delta) {
         if (state == ACTOR_STATE.WALKING) {
             animTimer += delta;
@@ -79,6 +77,12 @@ public class Actor {
 
     public void finishMove() {
         state = ACTOR_STATE.STANDING;
+        this.worldX = destX;
+        this.worldY = destY;
+        this.srcX = 0;
+        this.srcY = 0;
+        this.destX = 0;
+        this.destY = 0;
     }
 
     public int getX() {
