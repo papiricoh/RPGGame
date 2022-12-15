@@ -1,4 +1,4 @@
-package com.papiricoh.pokegame.model;
+package com.papiricoh.pokegame.model.world;
 
 import java.util.Random;
 

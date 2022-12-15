@@ -1,7 +1,6 @@
 package com.papiricoh.pokegame.screen;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -10,7 +9,7 @@ import com.papiricoh.pokegame.Settings;
 import com.papiricoh.pokegame.controller.PlayerController;
 import com.papiricoh.pokegame.model.Actor;
 import com.papiricoh.pokegame.model.Camera;
-import com.papiricoh.pokegame.model.TileMap;
+import com.papiricoh.pokegame.model.world.TileMap;
 import com.papiricoh.pokegame.util.AnimationSet;
 
 public class GameScreen extends AbstractScreen {
@@ -21,12 +20,11 @@ public class GameScreen extends AbstractScreen {
     private Camera camera;
 
     private SpriteBatch batch;
-    private Texture characterStanding;
+
 
     public GameScreen(PokeGame app) {
         super(app);
 
-        characterStanding = new Texture("player/playerTexture.png");
         batch = new SpriteBatch();
 
         TextureAtlas atlas = app.getAssetManager().get("player/playerTextures.atlas", TextureAtlas.class);

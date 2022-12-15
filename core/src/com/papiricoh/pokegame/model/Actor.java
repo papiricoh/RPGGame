@@ -1,9 +1,9 @@
 package com.papiricoh.pokegame.model;
 
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Interpolation;
 import com.papiricoh.pokegame.controller.DIRECTION;
+import com.papiricoh.pokegame.model.world.TileMap;
 import com.papiricoh.pokegame.util.AnimationSet;
 
 public class Actor {
