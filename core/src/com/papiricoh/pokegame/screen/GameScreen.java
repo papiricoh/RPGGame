@@ -2,13 +2,16 @@ package com.papiricoh.pokegame.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.papiricoh.pokegame.PokeGame;
 import com.papiricoh.pokegame.Settings;
 import com.papiricoh.pokegame.controller.PlayerController;
 import com.papiricoh.pokegame.model.Actor;
 import com.papiricoh.pokegame.model.Camera;
 import com.papiricoh.pokegame.model.TileMap;
+import com.papiricoh.pokegame.util.AnimationSet;
 
 public class GameScreen extends AbstractScreen {
 
@@ -23,10 +26,19 @@ public class GameScreen extends AbstractScreen {
     public GameScreen(PokeGame app) {
         super(app);
 
-        characterStanding = new Texture("player/player_texture.png");
+        characterStanding = new Texture("player/playerTexture.png");
         batch = new SpriteBatch();
+
+        TextureAtlas atlas = app.getAssetManager().get("assets/player/playerTextures.atlas", TextureAtlas.class);
+
+        AnimationSet animations = new AnimationSet(
+                new Animation(0.3f/2f, atlas.findRegions("player_walking"), Animation.PlayMode.LOOP_PINGPONG), new Animation(0.3f/2f, atlas.findRegions("player_walking"), Animation.PlayMode.LOOP_PINGPONG), new Animation(0.3f/2f, atlas.findRegions("player_walking"), Animation.PlayMode.LOOP_PINGPONG), new Animation(0.3f/2f, atlas.findRegions("player_walking"), Animation.PlayMode.LOOP_PINGPONG),
+
+                atlas.findRegion("player_walking_01"), atlas.findRegion("player_walking_01"), atlas.findRegion("player_walking_01"), atlas.findRegion("player_walking_01")
+
+                );
         tileMap = new TileMap(20, 20);
-        player = new Actor(tileMap, 1, 1);
+        player = new Actor(tileMap, 1, 1, animations);
         controller = new PlayerController(player);
         camera = new Camera();
     }
@@ -43,6 +55,8 @@ public class GameScreen extends AbstractScreen {
 
     @Override
     public void render(float delta) {
+        controller.update(delta);
+
         player.update(delta);
         camera.update(player.getWorldX()+0.5f, player.getWorldY()+0.5f);
         batch.begin();

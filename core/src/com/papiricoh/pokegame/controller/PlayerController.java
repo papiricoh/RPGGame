@@ -6,6 +6,7 @@ import com.papiricoh.pokegame.model.Actor;
 
 public class PlayerController extends InputAdapter {
     private Actor actor;
+    private boolean up, down, left, right;
 
     public PlayerController(Actor p){
         this.actor = p;
@@ -13,21 +14,36 @@ public class PlayerController extends InputAdapter {
 
     public boolean keyDown(int keyCode) {
         if(keyCode == Keys.UP) {
-            actor.move(0,1);
-            return true;
+            up = true;
         }
         if(keyCode == Keys.DOWN) {
-            actor.move(0,-1);
-            return true;
+            down = true;
         }
         if(keyCode == Keys.RIGHT) {
-            actor.move(1,0);
-            return true;
+            right = true;
         }
         if(keyCode == Keys.LEFT) {
-            actor.move(-1,0);
-            return true;
+            left = true;
         }
         return false;
+    }
+
+    public void update(float delta) {
+        if (up) {
+            actor.move(DIRECTION.NORTH);
+            return;
+        }
+        if (down) {
+            actor.move(DIRECTION.SOUTH);
+            return;
+        }
+        if (left) {
+            actor.move(DIRECTION.WEST);
+            return;
+        }
+        if (right) {
+            actor.move(DIRECTION.EAST);
+            return;
+        }
     }
 }
