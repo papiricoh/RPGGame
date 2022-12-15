@@ -1,6 +1,5 @@
 sourceCompatibility = 1.7
 dependencies {
-    implementation 'com.github.tommyettinger:libgdx-texturepacker:1.11.0.1'
 }
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
