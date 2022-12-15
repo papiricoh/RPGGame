@@ -24,7 +24,7 @@ public class AnimationSet {
         standing.put(DIRECTION.WEST, standWest);
     }
 
-    public Animation getWalking(DIRECTION dir) {
+    public Animation<TextureRegion> getWalking(DIRECTION dir) {
         return walking.get(dir);
     }
     public TextureRegion getStanding(DIRECTION dir) {

@@ -15,7 +15,7 @@ public class PokeGame extends Game {
 	@Override
 	public void create () {
 		assetManager = new AssetManager();
-		assetManager.load("assets/player/playerTextures.atlas", TextureAtlas.class);
+		assetManager.load("player/playerTextures.atlas", TextureAtlas.class);
 		assetManager.finishLoading();
 
 		screen = new GameScreen(this);

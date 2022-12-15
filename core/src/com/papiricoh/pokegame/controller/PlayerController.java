@@ -27,6 +27,21 @@ public class PlayerController extends InputAdapter {
         }
         return false;
     }
+    public boolean keyUp(int keyCode) {
+        if(keyCode == Keys.UP) {
+            up = false;
+        }
+        if(keyCode == Keys.DOWN) {
+            down = false;
+        }
+        if(keyCode == Keys.RIGHT) {
+            right = false;
+        }
+        if(keyCode == Keys.LEFT) {
+            left = false;
+        }
+        return false;
+    }
 
     public void update(float delta) {
         if (up) {

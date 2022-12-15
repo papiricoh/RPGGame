@@ -29,12 +29,12 @@ public class GameScreen extends AbstractScreen {
         characterStanding = new Texture("player/playerTexture.png");
         batch = new SpriteBatch();
 
-        TextureAtlas atlas = app.getAssetManager().get("assets/player/playerTextures.atlas", TextureAtlas.class);
+        TextureAtlas atlas = app.getAssetManager().get("player/playerTextures.atlas", TextureAtlas.class);
 
         AnimationSet animations = new AnimationSet(
                 new Animation(0.3f/2f, atlas.findRegions("player_walking"), Animation.PlayMode.LOOP_PINGPONG), new Animation(0.3f/2f, atlas.findRegions("player_walking"), Animation.PlayMode.LOOP_PINGPONG), new Animation(0.3f/2f, atlas.findRegions("player_walking"), Animation.PlayMode.LOOP_PINGPONG), new Animation(0.3f/2f, atlas.findRegions("player_walking"), Animation.PlayMode.LOOP_PINGPONG),
 
-                atlas.findRegion("player_walking_01"), atlas.findRegion("player_walking_01"), atlas.findRegion("player_walking_01"), atlas.findRegion("player_walking_01")
+                atlas.findRegion("player_walking"), atlas.findRegion("player_walking"), atlas.findRegion("player_walking"), atlas.findRegion("player_walking")
 
                 );
         tileMap = new TileMap(20, 20);
@@ -72,7 +72,7 @@ public class GameScreen extends AbstractScreen {
             }
         }
 
-        batch.draw(characterStanding, worldStartX + player.getWorldX() * Settings.SCALED_TILE_SIZE, worldStartY + player.getWorldY() * Settings.SCALED_TILE_SIZE, Settings.SCALED_TILE_SIZE, Settings.SCALED_TILE_SIZE);
+        batch.draw(player.getSprite(), worldStartX + player.getWorldX() * Settings.SCALED_TILE_SIZE, worldStartY + player.getWorldY() * Settings.SCALED_TILE_SIZE, Settings.SCALED_TILE_SIZE, Settings.SCALED_TILE_SIZE);
         batch.end();
     }
 
