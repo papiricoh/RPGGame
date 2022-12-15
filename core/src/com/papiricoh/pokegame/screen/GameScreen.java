@@ -32,9 +32,13 @@ public class GameScreen extends AbstractScreen {
         TextureAtlas atlas = app.getAssetManager().get("player/playerTextures.atlas", TextureAtlas.class);
 
         AnimationSet animations = new AnimationSet(
-                new Animation(0.3f/2f, atlas.findRegions("player_walking_north"), Animation.PlayMode.LOOP_PINGPONG), new Animation(0.3f/2f, atlas.findRegions("player_walking_south"), Animation.PlayMode.LOOP_PINGPONG), new Animation(0.3f/2f, atlas.findRegions("player_walking_west"), Animation.PlayMode.LOOP_PINGPONG), new Animation(0.3f/2f, atlas.findRegions("player_walking_east"), Animation.PlayMode.LOOP_PINGPONG),
+                new Animation(0.3f/2f, atlas.findRegions("player_walking_north"), Animation.PlayMode.LOOP_PINGPONG),
+                new Animation(0.3f/2f, atlas.findRegions("player_walking_south"), Animation.PlayMode.LOOP_PINGPONG),
+                new Animation(0.3f/2f, atlas.findRegions("player_walking_west"), Animation.PlayMode.LOOP_PINGPONG),
+                new Animation(0.3f/2f, atlas.findRegions("player_walking_east"), Animation.PlayMode.LOOP_PINGPONG),
 
-                atlas.findRegion("player_standing_north"), atlas.findRegion("player_standing_south"), atlas.findRegion("player_standing_west"), atlas.findRegion("player_standing_east")
+                atlas.findRegion("player_standing_north"), atlas.findRegion("player_standing_south"),
+                atlas.findRegion("player_standing_west"), atlas.findRegion("player_standing_east")
 
                 );
         tileMap = new TileMap(20, 20);

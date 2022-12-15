@@ -77,7 +77,7 @@ public class Actor {
             }
             return false;
         }
-        if(x+dir.getDx() > map.getWidth() || x+dir.getDx() < 0 || y+dir.getDy() > map.getHeight() || y+dir.getDy() < 0) {
+        if(x+dir.getDx() > map.getWidth() - 1 || x+dir.getDx() < 0 || y+dir.getDy() > map.getHeight() - 1 || y+dir.getDy() < 0) {
             return false;
         }
         if (map.getTile(x+dir.getDx(), y+dir.getDy()).getActor() != null) {
