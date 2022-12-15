@@ -54,8 +54,8 @@ public class Actor {
         if (state == ACTOR_STATE.WALKING) {
             animTimer += delta;
             walkTimer += delta;
-            worldX = Interpolation.pow2.apply(srcX, destX, animTimer/ANIM_TIME);
-            worldY = Interpolation.pow2.apply(srcY, destY, animTimer/ANIM_TIME);
+            worldX = Interpolation.linear.apply(srcX, destX, animTimer/ANIM_TIME);
+            worldY = Interpolation.linear.apply(srcY, destY, animTimer/ANIM_TIME);
             if(animTimer > ANIM_TIME) {
                 float leftOverTime = animTimer-ANIM_TIME;
                 walkTimer -= leftOverTime;

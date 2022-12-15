@@ -39,8 +39,8 @@ public class GameScreen extends AbstractScreen {
                 atlas.findRegion("player_standing_west"), atlas.findRegion("player_standing_east")
 
                 );
-        tileMap = new TileMap(20, 20);
-        player = new Actor(tileMap, 1, 1, animations);
+        tileMap = new TileMap(100, 20);
+        player = new Actor(tileMap, 0, 0, animations);
         controller = new PlayerController(player);
         camera = new Camera();
     }
