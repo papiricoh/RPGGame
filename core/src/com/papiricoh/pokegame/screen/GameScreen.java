@@ -23,7 +23,7 @@ public class GameScreen extends AbstractScreen {
     public GameScreen(PokeGame app) {
         super(app);
 
-        characterStanding = new Texture("player/playerTexture.png");
+        characterStanding = new Texture("player/player_texture.png");
         batch = new SpriteBatch();
         tileMap = new TileMap(20, 20);
         player = new Actor(tileMap, 1, 1);
