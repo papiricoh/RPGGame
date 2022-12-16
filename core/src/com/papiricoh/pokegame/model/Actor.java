@@ -3,11 +3,11 @@ package com.papiricoh.pokegame.model;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Interpolation;
 import com.papiricoh.pokegame.controller.DIRECTION;
-import com.papiricoh.pokegame.model.world.TileMap;
 import com.papiricoh.pokegame.model.world.World;
 import com.papiricoh.pokegame.util.AnimationSet;
 
 public class Actor {
+    private static final float REFACE_TIME = 0.1f;
     private World world;
     private int x;
     private int y;
@@ -18,6 +18,7 @@ public class Actor {
     private int srcX, srcY;
     private int destX, destY;
     private float animTimer;
+    private float WALK_TIME_PER_TILE = 0.3f;
     private float ANIM_TIME = 0.5f;
 
     private float walkTimer;
@@ -48,9 +49,23 @@ public class Actor {
         return worldY;
     }
 
+    public boolean reface(DIRECTION dir) {
+        if (state != ACTOR_STATE.STANDING) { // can only reface when standing
+            return false;
+        }
+        if (facing == dir) { // can't reface if we already face a direction
+            return true;
+        }
+        facing = dir;
+        state = ACTOR_STATE.REFACING;
+        animTimer = 0f;
+        return true;
+    }
+
     public enum ACTOR_STATE {
         WALKING,
-        STANDING
+        STANDING,
+        REFACING,
     }
     public void update(float delta) {
         if (state == ACTOR_STATE.WALKING) {
@@ -69,8 +84,16 @@ public class Actor {
                 }
             }
         }
+        if (state == ACTOR_STATE.REFACING) {
+            animTimer += delta;
+            if( animTimer > REFACE_TIME) {
+                state = ACTOR_STATE.STANDING;
+            }
+        }
         moveRequestThisFrame = false;
     }
+
+
 
     public boolean move(DIRECTION dir){
         if (state == ACTOR_STATE.WALKING) {
@@ -131,7 +154,10 @@ public class Actor {
             return animations.getWalking(facing).getKeyFrame(walkTimer);
         } else if (state == ACTOR_STATE.STANDING) {
             return animations.getStanding(facing);
+        } else if (state == ACTOR_STATE.REFACING) {
+            return animations.getWalking(facing).getKeyFrames()[0];
         }
         return animations.getStanding(DIRECTION.SOUTH);
     }
+
 }
