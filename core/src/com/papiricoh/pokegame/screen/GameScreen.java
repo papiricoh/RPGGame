@@ -10,11 +10,13 @@ import com.papiricoh.pokegame.controller.PlayerController;
 import com.papiricoh.pokegame.model.Actor;
 import com.papiricoh.pokegame.model.Camera;
 import com.papiricoh.pokegame.model.world.TileMap;
+import com.papiricoh.pokegame.model.world.World;
+import com.papiricoh.pokegame.model.world.objects.PokeballWorldObject;
 import com.papiricoh.pokegame.util.AnimationSet;
 
 public class GameScreen extends AbstractScreen {
 
-    private TileMap tileMap;
+    private World world;
     private Actor player;
     private PlayerController controller;
     private Camera camera;
@@ -39,8 +41,9 @@ public class GameScreen extends AbstractScreen {
                 atlas.findRegion("player_standing_west"), atlas.findRegion("player_standing_east")
 
                 );
-        tileMap = new TileMap(100, 20);
-        player = new Actor(tileMap, 0, 0, animations);
+        world = new World(20, 20);
+        world.addObject(new PokeballWorldObject(1,1));
+        player = new Actor(world, 0, 0, animations);
         controller = new PlayerController(player);
         camera = new Camera();
     }
@@ -66,11 +69,19 @@ public class GameScreen extends AbstractScreen {
         float worldStartX = (float) Gdx.graphics.getWidth() / 2 - camera.getCameraX() * Settings.SCALED_TILE_SIZE;
         float worldStartY = (float) Gdx.graphics.getHeight() / 2 - camera.getCameraY() * Settings.SCALED_TILE_SIZE;
 
-        int mapWidth = tileMap.getWidth();
-        int mapHeight = tileMap.getHeight();
+        int mapWidth = world.getMap().getWidth();
+        int mapHeight = world.getMap().getHeight();
         for (int x = 0; x < mapWidth; x++) {
             for (int y = 0; y < mapHeight; y++) {
-                batch.draw(tileMap.getTile(x, y).getTexture(), worldStartX + x * Settings.SCALED_TILE_SIZE, worldStartY + y * Settings.SCALED_TILE_SIZE, Settings.SCALED_TILE_SIZE, Settings.SCALED_TILE_SIZE);
+                batch.draw(world.getMap().getTile(x, y).getTexture(), worldStartX + x * Settings.SCALED_TILE_SIZE, worldStartY + y * Settings.SCALED_TILE_SIZE, Settings.SCALED_TILE_SIZE, Settings.SCALED_TILE_SIZE);
+            }
+        }
+
+        for (int x = 0; x < mapWidth; x++) {
+            for (int y = 0; y < mapHeight; y++) {
+                if (world.getObjectByCoord(x, y) != null) {
+                    batch.draw(world.getObjectByCoord(x, y).getTexture(), worldStartX + x * Settings.SCALED_TILE_SIZE, worldStartY + y * Settings.SCALED_TILE_SIZE, Settings.SCALED_TILE_SIZE, Settings.SCALED_TILE_SIZE);
+                }
             }
         }
 

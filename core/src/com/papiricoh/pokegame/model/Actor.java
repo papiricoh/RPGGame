@@ -4,10 +4,11 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Interpolation;
 import com.papiricoh.pokegame.controller.DIRECTION;
 import com.papiricoh.pokegame.model.world.TileMap;
+import com.papiricoh.pokegame.model.world.World;
 import com.papiricoh.pokegame.util.AnimationSet;
 
 public class Actor {
-    private TileMap map;
+    private World world;
     private int x;
     private int y;
     private DIRECTION facing;
@@ -26,14 +27,15 @@ public class Actor {
 
     private AnimationSet animations;
 
-    public Actor(TileMap map, int x, int y, AnimationSet animations) {
-        this.map = map;
+    public Actor(World world, int x, int y, AnimationSet animations) {
+
+        this.world = world;
         this.x = x;
         this.y = y;
         this.worldX = x;
         this.worldY = y;
         this.animations = animations;
-        this.map.getTile(x, y).setActor(this);
+        this.world.getMap().getTile(x, y).setActor(this);
         this.state = ACTOR_STATE.STANDING;
         this.facing = DIRECTION.SOUTH;
     }
@@ -77,17 +79,20 @@ public class Actor {
             }
             return false;
         }
-        if(x+dir.getDx() > map.getWidth() - 1 || x+dir.getDx() < 0 || y+dir.getDy() > map.getHeight() - 1 || y+dir.getDy() < 0) {
+        if(x+dir.getDx() > world.getMap().getWidth() - 1 || x+dir.getDx() < 0 || y+dir.getDy() > world.getMap().getHeight() - 1 || y+dir.getDy() < 0) {
             return false;
         }
-        if (map.getTile(x+dir.getDx(), y+dir.getDy()).getActor() != null) {
+        if (world.getMap().getTile(x+dir.getDx(), y+dir.getDy()).getActor() != null) {
+            return false;
+        }
+        if(world.getObjectByCoord(x+dir.getDx(), y+dir.getDy()) != null && world.getObjectByCoord(x+dir.getDx(), y+dir.getDy()).isCollision()) {
             return false;
         }
         initializeMove(dir);
-        this.map.getTile(x,y).setActor(null);
+        this.world.getMap().getTile(x,y).setActor(null);
         this.x += dir.getDx();
         this.y += dir.getDy();
-        this.map.getTile(x,y).setActor(this);
+        this.world.getMap().getTile(x,y).setActor(this);
         return true;
     }
 
