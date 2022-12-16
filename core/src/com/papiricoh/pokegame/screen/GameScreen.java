@@ -4,6 +4,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.papiricoh.pokegame.PokeGame;
 import com.papiricoh.pokegame.Settings;
 import com.papiricoh.pokegame.controller.PlayerController;
@@ -12,6 +16,7 @@ import com.papiricoh.pokegame.model.Camera;
 import com.papiricoh.pokegame.model.world.TileMap;
 import com.papiricoh.pokegame.model.world.World;
 import com.papiricoh.pokegame.model.world.objects.PokeballWorldObject;
+import com.papiricoh.pokegame.screen.ui.DialogueBox;
 import com.papiricoh.pokegame.util.AnimationSet;
 
 public class GameScreen extends AbstractScreen {
@@ -23,10 +28,16 @@ public class GameScreen extends AbstractScreen {
 
     private SpriteBatch batch;
 
+    private int ui_scale = 1;
+    private Stage uiStage;
+    private Table root;
+    private Viewport gameViewport;
+    private DialogueBox dialogueBox;
+
 
     public GameScreen(PokeGame app) {
         super(app);
-
+        gameViewport = new ScreenViewport();
         batch = new SpriteBatch();
 
         TextureAtlas atlas = app.getAssetManager().get("player/playerTextures.atlas", TextureAtlas.class);
@@ -46,6 +57,18 @@ public class GameScreen extends AbstractScreen {
         player = new Actor(world, 0, 0, animations);
         controller = new PlayerController(player);
         camera = new Camera();
+
+        initUI();
+    }
+
+    private void initUI() {
+        uiStage = new Stage(new ScreenViewport());
+        uiStage.getViewport().update(Gdx.graphics.getWidth()/ui_scale, Gdx.graphics.getHeight()/ui_scale);
+        uiStage.setDebugAll(true); //UI DEBUG MODE
+
+        root = new Table();
+        root.setFillParent(true);
+        uiStage.addActor(root);
     }
 
     @Override
@@ -64,8 +87,10 @@ public class GameScreen extends AbstractScreen {
 
         player.update(delta);
         camera.update(player.getWorldX()+0.5f, player.getWorldY()+0.5f);
-        batch.begin();
 
+        gameViewport.apply();
+        batch.begin();
+        //TODO: WorldManager.java
         float worldStartX = (float) Gdx.graphics.getWidth() / 2 - camera.getCameraX() * Settings.SCALED_TILE_SIZE;
         float worldStartY = (float) Gdx.graphics.getHeight() / 2 - camera.getCameraY() * Settings.SCALED_TILE_SIZE;
 
@@ -87,11 +112,15 @@ public class GameScreen extends AbstractScreen {
 
         batch.draw(player.getSprite(), worldStartX + player.getWorldX() * Settings.SCALED_TILE_SIZE, worldStartY + player.getWorldY() * Settings.SCALED_TILE_SIZE, Settings.SCALED_TILE_SIZE, Settings.SCALED_TILE_SIZE);
         batch.end();
+
+        uiStage.draw();
     }
 
     @Override
     public void resize(int width, int height) {
-
+        batch.getProjectionMatrix().setToOrtho2D(0, 0, width, height);
+        uiStage.getViewport().update(width/ui_scale, height/ui_scale, true);
+        gameViewport.update(width, height);
     }
 
     @Override
