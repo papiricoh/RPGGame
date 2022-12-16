@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.papiricoh.pokegame.PokeGame;
@@ -13,7 +14,6 @@ import com.papiricoh.pokegame.Settings;
 import com.papiricoh.pokegame.controller.PlayerController;
 import com.papiricoh.pokegame.model.Actor;
 import com.papiricoh.pokegame.model.Camera;
-import com.papiricoh.pokegame.model.world.TileMap;
 import com.papiricoh.pokegame.model.world.World;
 import com.papiricoh.pokegame.model.world.objects.PokeballWorldObject;
 import com.papiricoh.pokegame.screen.ui.DialogueBox;
@@ -28,7 +28,7 @@ public class GameScreen extends AbstractScreen {
 
     private SpriteBatch batch;
 
-    private int ui_scale = 1;
+    private int ui_scale = 2;
     private Stage uiStage;
     private Table root;
     private Viewport gameViewport;
@@ -69,6 +69,15 @@ public class GameScreen extends AbstractScreen {
         root = new Table();
         root.setFillParent(true);
         uiStage.addActor(root);
+
+        dialogueBox = new DialogueBox(getApp().getSkin());
+        dialogueBox.animateText("Hello jdwojadowapdoawodjawjo");
+        dialogueBox.isFinished();
+
+        root.add(dialogueBox)
+                .expand()
+                .align(Align.bottom)
+                .pad(8f);
     }
 
     @Override
