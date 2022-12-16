@@ -1,6 +1,7 @@
 package com.papiricoh.pokegame.screen;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -11,19 +12,23 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.papiricoh.pokegame.PokeGame;
 import com.papiricoh.pokegame.Settings;
+import com.papiricoh.pokegame.controller.OptionBoxController;
 import com.papiricoh.pokegame.controller.PlayerController;
 import com.papiricoh.pokegame.model.Actor;
 import com.papiricoh.pokegame.model.Camera;
 import com.papiricoh.pokegame.model.world.World;
 import com.papiricoh.pokegame.model.world.objects.PokeballWorldObject;
 import com.papiricoh.pokegame.screen.ui.DialogueBox;
+import com.papiricoh.pokegame.screen.ui.OptionBox;
 import com.papiricoh.pokegame.util.AnimationSet;
 
 public class GameScreen extends AbstractScreen {
 
     private World world;
     private Actor player;
-    private PlayerController controller;
+    private InputMultiplexer multiplexer;
+    private PlayerController playerController;
+    private OptionBoxController optionsController;
     private Camera camera;
 
     private SpriteBatch batch;
@@ -33,6 +38,7 @@ public class GameScreen extends AbstractScreen {
     private Table root;
     private Viewport gameViewport;
     private DialogueBox dialogueBox;
+    private OptionBox optionBox;
 
 
     public GameScreen(PokeGame app) {
@@ -52,13 +58,20 @@ public class GameScreen extends AbstractScreen {
                 atlas.findRegion("player_standing_west"), atlas.findRegion("player_standing_east")
 
                 );
+
+        camera = new Camera();
         world = new World(20, 20);
         world.addObject(new PokeballWorldObject(1,1));
         player = new Actor(world, 0, 0, animations);
-        controller = new PlayerController(player);
-        camera = new Camera();
 
         initUI();
+
+        multiplexer = new InputMultiplexer();
+        playerController = new PlayerController(player);
+        optionsController = new OptionBoxController(optionBox);
+        multiplexer.addProcessor(playerController);
+        multiplexer.addProcessor(optionsController);
+
     }
 
     @Override
@@ -68,12 +81,12 @@ public class GameScreen extends AbstractScreen {
 
     @Override
     public void show() {
-        Gdx.input.setInputProcessor(controller);
+        Gdx.input.setInputProcessor(playerController);
     }
 
     @Override
     public void render(float delta) {
-        controller.update(delta);
+        playerController.update(delta);
 
         player.update(delta);
         camera.update(player.getWorldX()+0.5f, player.getWorldY()+0.5f);
@@ -115,11 +128,19 @@ public class GameScreen extends AbstractScreen {
         root = new Table();
         root.setFillParent(true);
         uiStage.addActor(root);
-
+        /*
         dialogueBox = new DialogueBox(getApp().getSkin());
         dialogueBox.animateText("\"Luis es tonto JEJEJJEJEJ\"\n - A-Lopecin");
+         */
 
-        root.add(dialogueBox).expand().align(Align.bottom).pad(8f);
+        Table dialogTable = new Table();
+        optionBox = new OptionBox(getApp().getSkin());
+        optionBox.addOption("Option1");
+        optionBox.addOption("Option2");
+        optionBox.addOption("Option3");
+        dialogTable.add(optionBox);
+
+        root.add(dialogTable).expand().align(Align.bottom);
     }
 
     @Override
