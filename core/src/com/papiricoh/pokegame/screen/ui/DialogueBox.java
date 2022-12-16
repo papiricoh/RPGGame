@@ -55,7 +55,7 @@ public class DialogueBox extends Table {
                 animTimer = animationTotalTime;
             }
             String actuallyDisplayedText = "";
-            int charactersToDisplay = (int) (animTimer/animationTotalTime)*targetText.length();
+            int charactersToDisplay = (int) ((animTimer/animationTotalTime)*targetText.length());
             for (int i = 0; i < charactersToDisplay; i++) {
                 actuallyDisplayedText += targetText.charAt(i);
             }

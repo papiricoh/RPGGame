@@ -61,25 +61,6 @@ public class GameScreen extends AbstractScreen {
         initUI();
     }
 
-    private void initUI() {
-        uiStage = new Stage(new ScreenViewport());
-        uiStage.getViewport().update(Gdx.graphics.getWidth()/ui_scale, Gdx.graphics.getHeight()/ui_scale);
-        uiStage.setDebugAll(true); //UI DEBUG MODE
-
-        root = new Table();
-        root.setFillParent(true);
-        uiStage.addActor(root);
-
-        dialogueBox = new DialogueBox(getApp().getSkin());
-        dialogueBox.animateText("Hello jdwojadowapdoawodjawjo");
-        dialogueBox.isFinished();
-
-        root.add(dialogueBox)
-                .expand()
-                .align(Align.bottom)
-                .pad(8f);
-    }
-
     @Override
     public void dispose() {
 
@@ -96,6 +77,7 @@ public class GameScreen extends AbstractScreen {
 
         player.update(delta);
         camera.update(player.getWorldX()+0.5f, player.getWorldY()+0.5f);
+        uiStage.act(delta);
 
         gameViewport.apply();
         batch.begin();
@@ -123,6 +105,21 @@ public class GameScreen extends AbstractScreen {
         batch.end();
 
         uiStage.draw();
+    }
+
+    private void initUI() {
+        uiStage = new Stage(new ScreenViewport());
+        uiStage.getViewport().update(Gdx.graphics.getWidth()/ui_scale, Gdx.graphics.getHeight()/ui_scale, true);
+        //uiStage.setDebugAll(true); //UI DEBUG MODE
+
+        root = new Table();
+        root.setFillParent(true);
+        uiStage.addActor(root);
+
+        dialogueBox = new DialogueBox(getApp().getSkin());
+        dialogueBox.animateText("\"Luis es tonto JEJEJJEJEJ\"\n - A-Lopecin");
+
+        root.add(dialogueBox).expand().align(Align.bottom).pad(8f);
     }
 
     @Override
