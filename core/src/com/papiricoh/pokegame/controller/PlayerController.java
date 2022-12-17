@@ -3,7 +3,6 @@ package com.papiricoh.pokegame.controller;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
 import com.papiricoh.pokegame.model.Actor;
-import sun.tools.jconsole.JConsole;
 
 public class PlayerController extends InputAdapter {
     private Actor actor;
