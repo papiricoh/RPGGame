@@ -12,8 +12,10 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.papiricoh.pokegame.PokeGame;
 import com.papiricoh.pokegame.Settings;
-import com.papiricoh.pokegame.controller.OptionBoxController;
+import com.papiricoh.pokegame.controller.DialogueController;
 import com.papiricoh.pokegame.controller.PlayerController;
+import com.papiricoh.pokegame.dialogue.Dialogue;
+import com.papiricoh.pokegame.dialogue.DialogueNode;
 import com.papiricoh.pokegame.model.Actor;
 import com.papiricoh.pokegame.model.Camera;
 import com.papiricoh.pokegame.model.world.World;
@@ -24,11 +26,12 @@ import com.papiricoh.pokegame.util.AnimationSet;
 
 public class GameScreen extends AbstractScreen {
 
+    private DialogueController dialogueController;
+    private Dialogue dialogue;
     private World world;
     private Actor player;
     private InputMultiplexer multiplexer;
     private PlayerController playerController;
-    private OptionBoxController optionsController;
     private Camera camera;
 
     private SpriteBatch batch;
@@ -68,10 +71,29 @@ public class GameScreen extends AbstractScreen {
 
         multiplexer = new InputMultiplexer();
         playerController = new PlayerController(player);
-        optionsController = new OptionBoxController(optionBox);
+        dialogueController = new DialogueController(dialogueBox, optionBox);
         multiplexer.addProcessor(playerController);
-        multiplexer.addProcessor(optionsController);
+        multiplexer.addProcessor(dialogueController);
 
+        dialogue = new Dialogue();
+
+        DialogueNode node1 = new DialogueNode("Hello\nNice to meet you" ,0);
+        DialogueNode node2 = new DialogueNode("The objective of this game is to get the trees\nWanna play?" ,1);
+        DialogueNode node3 = new DialogueNode("Yes" ,2);
+        DialogueNode node4 = new DialogueNode("No" ,3);
+        DialogueNode node5 = new DialogueNode("Cool" ,4);
+
+        node1.makeLinear(node2.getID());
+        node2.addChoice("Yes", 4);
+        node2.addChoice("No", 1);
+
+        dialogue.addNode(node1);
+        dialogue.addNode(node2);
+        dialogue.addNode(node3);
+        dialogue.addNode(node4);
+        dialogue.addNode(node5);
+
+        dialogueController.startDialogue(dialogue);
     }
 
     @Override
@@ -81,12 +103,13 @@ public class GameScreen extends AbstractScreen {
 
     @Override
     public void show() {
-        Gdx.input.setInputProcessor(playerController);
+        Gdx.input.setInputProcessor(multiplexer);
     }
 
     @Override
     public void render(float delta) {
         playerController.update(delta);
+        dialogueController.update(delta);
 
         player.update(delta);
         camera.update(player.getWorldX()+0.5f, player.getWorldY()+0.5f);
@@ -128,17 +151,14 @@ public class GameScreen extends AbstractScreen {
         root = new Table();
         root.setFillParent(true);
         uiStage.addActor(root);
-        /*
-        dialogueBox = new DialogueBox(getApp().getSkin());
-        dialogueBox.animateText("\"Luis es tonto JEJEJJEJEJ\"\n - A-Lopecin");
-         */
-
         Table dialogTable = new Table();
+
+        dialogueBox = new DialogueBox(getApp().getSkin());
+        dialogueBox.setVisible(false);
         optionBox = new OptionBox(getApp().getSkin());
-        optionBox.addOption("Option1");
-        optionBox.addOption("Option2");
-        optionBox.addOption("Option3");
+        optionBox.setVisible(false);
         dialogTable.add(optionBox);
+        dialogTable.add(dialogueBox);
 
         root.add(dialogTable).expand().align(Align.bottom);
     }
