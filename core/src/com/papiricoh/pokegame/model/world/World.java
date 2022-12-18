@@ -7,6 +7,7 @@ public class World {
     private TileMap tileMap;
 
     private WorldObject[][] worldObjects;
+    private int worldObjectCounter;
 
     public World(int width, int height) {
         this.width = width;
@@ -17,6 +18,7 @@ public class World {
 
     public boolean addObject(WorldObject object) {
         if(checkBorders(object.getX(), object.getY()) && this.worldObjects[object.getX()][object.getY()] == null ) {
+            worldObjectCounter++;
             this.worldObjects[object.getX()][object.getY()] = object;
             return true;
         }
@@ -48,4 +50,12 @@ public class World {
         return this.tileMap;
     }
 
+    public void deleteObjectByCoord(int x, int y) {
+        worldObjectCounter--;
+        this.worldObjects[x][y] = null;
+    }
+
+    public int getWorldObjectCounter() {
+        return worldObjectCounter;
+    }
 }
