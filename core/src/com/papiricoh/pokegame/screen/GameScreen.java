@@ -81,7 +81,7 @@ public class GameScreen extends AbstractScreen {
 
     @Override
     public void show() {
-        Gdx.input.setInputProcessor(playerController);
+        Gdx.input.setInputProcessor(multiplexer);
     }
 
     @Override
