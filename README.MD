@@ -9,5 +9,5 @@ A Pokemon christmas game developed in java using gradle, maven and [libGBX](http
 
 ## Credits:
 * Code: [Papiricoh](https://github.com/papiricoh)
-* Assets: [Rampager](https://github.com/MilanesaBolchevique), [LeCloutch](*https://github.com/LeCloutch), [ElKalto](https://github.com/ElKalto)
+* Assets: [Rampager](https://github.com/MilanesaBolchevique), [LeCloutch](https://github.com/LeCloutch), [ElKalto](https://github.com/ElKalto)
 * Original Soundtrack: [Rampager](https://github.com/MilanesaBolchevique)
