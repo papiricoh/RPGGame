@@ -21,6 +21,7 @@ import com.papiricoh.pokegame.dialogue.DialogueNode;
 import com.papiricoh.pokegame.model.Actor;
 import com.papiricoh.pokegame.model.Camera;
 import com.papiricoh.pokegame.model.world.World;
+import com.papiricoh.pokegame.model.world.WorldManager;
 import com.papiricoh.pokegame.model.world.objects.PokeballWorldObject;
 import com.papiricoh.pokegame.model.world.objects.TreeWorldObject;
 import com.papiricoh.pokegame.screen.ui.DialogueBox;
@@ -34,7 +35,7 @@ public class GameScreen extends AbstractScreen {
 
     private DialogueController dialogueController;
     private Dialogue dialogue;
-    private World world;
+    private WorldManager worldManager;
     private Actor player;
     private InputMultiplexer multiplexer;
     private PlayerController playerController;
@@ -81,17 +82,17 @@ public class GameScreen extends AbstractScreen {
                 );
 
         camera = new Camera();
-        world = new World(20, 20);
+        worldManager = new WorldManager(new World(20, 20));
         //world.addObject(new PokeballWorldObject(1,1));
 
-        player = new Actor(world, 10, 10, animations);
+        player = new Actor(worldManager.getWorld(), 10, 10, animations);
 
-        for (int x = 0; x < world.getMap().getWidth(); x++) {
-            for (int y = 0; y < world.getMap().getHeight(); y++) {
+        for (int x = 0; x < worldManager.getWorld().getMap().getWidth(); x++) {
+            for (int y = 0; y < worldManager.getWorld().getMap().getHeight(); y++) {
                 int rn = new Random().nextInt(20);
-                if (rn == 0 && (x != player.getX() && y != player.getY()) && world.getObjectByCoord(x, y) == null) {
+                if (rn == 0 && (x != player.getX() && y != player.getY()) && worldManager.getWorld().getObjectByCoord(x, y) == null) {
                     xmasTotalTrees++;
-                    world.addObject(new TreeWorldObject(x,y));
+                    worldManager.getWorld().addObject(new TreeWorldObject(x,y));
                 }
             }
         }
@@ -148,33 +149,19 @@ public class GameScreen extends AbstractScreen {
 
         gameViewport.apply();
         batch.begin();
-        //TODO: WorldManager.java
+
         float worldStartX = (float) Gdx.graphics.getWidth() / 2 - camera.getCameraX() * Settings.SCALED_TILE_SIZE;
         float worldStartY = (float) Gdx.graphics.getHeight() / 2 - camera.getCameraY() * Settings.SCALED_TILE_SIZE;
 
-        int mapWidth = world.getMap().getWidth();
-        int mapHeight = world.getMap().getHeight();
-        for (int x = 0; x < mapWidth; x++) {
-            for (int y = 0; y < mapHeight; y++) {
-                batch.draw(world.getMap().getTile(x, y).getTexture(), worldStartX + x * Settings.SCALED_TILE_SIZE, worldStartY + y * Settings.SCALED_TILE_SIZE, Settings.SCALED_TILE_SIZE, Settings.SCALED_TILE_SIZE);
-            }
-        }
-
-        for (int x = 0; x < mapWidth; x++) {
-            for (int y = 0; y < mapHeight; y++) {
-                if (world.getObjectByCoord(x, y) != null) {
-                    batch.draw(world.getObjectByCoord(x, y).getTexture(), worldStartX + x * Settings.SCALED_TILE_SIZE, worldStartY + y * Settings.SCALED_TILE_SIZE, Settings.SCALED_TILE_SIZE, Settings.SCALED_TILE_SIZE);
-                }
-            }
-        }
+        worldManager.render(batch, camera); //WorldManager.java
 
         batch.draw(player.getSprite(), worldStartX + player.getWorldX() * Settings.SCALED_TILE_SIZE, worldStartY + player.getWorldY() * Settings.SCALED_TILE_SIZE, Settings.SCALED_TILE_SIZE, Settings.SCALED_TILE_SIZE + 32);
         batch.end();
 
 
-        if(world.getObjectByCoord(player.getX(), player.getY()) != null && world.getObjectByCoord(player.getX(), player.getY()) instanceof TreeWorldObject) {
+        if(worldManager.getWorld().getObjectByCoord(player.getX(), player.getY()) != null && worldManager.getWorld().getObjectByCoord(player.getX(), player.getY()) instanceof TreeWorldObject) {
             xmasCounter++;
-            world.deleteObjectByCoord(player.getX(), player.getY());
+            worldManager.getWorld().deleteObjectByCoord(player.getX(), player.getY());
 
             //AUDIO
             this.sound.play(0.8f);

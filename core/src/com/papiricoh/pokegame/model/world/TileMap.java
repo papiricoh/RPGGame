@@ -20,6 +20,12 @@ public class TileMap {
             }
         }
     }
+    public TileMap(int width, int height, Tile[][] tiles) {
+        this.width = width;
+        this.height = height;
+        this.tiles = tiles;
+
+    }
 
     public Tile getTile(int x, int y) {
         return tiles[x][y];
