@@ -2,6 +2,8 @@ package com.papiricoh.pokegame.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -20,9 +22,13 @@ import com.papiricoh.pokegame.model.Actor;
 import com.papiricoh.pokegame.model.Camera;
 import com.papiricoh.pokegame.model.world.World;
 import com.papiricoh.pokegame.model.world.objects.PokeballWorldObject;
+import com.papiricoh.pokegame.model.world.objects.TreeWorldObject;
 import com.papiricoh.pokegame.screen.ui.DialogueBox;
 import com.papiricoh.pokegame.screen.ui.OptionBox;
 import com.papiricoh.pokegame.util.AnimationSet;
+import sun.reflect.generics.tree.Tree;
+
+import java.util.Random;
 
 public class GameScreen extends AbstractScreen {
 
@@ -43,11 +49,23 @@ public class GameScreen extends AbstractScreen {
     private DialogueBox dialogueBox;
     private OptionBox optionBox;
 
+    private int xmasCounter;
+    private int xmasTotalTrees;
+    Music music;
+    Sound sound;
+
 
     public GameScreen(PokeGame app) {
         super(app);
         gameViewport = new ScreenViewport();
         batch = new SpriteBatch();
+
+        this.sound = Gdx.audio.newSound(Gdx.files.internal("audio/item_found.mp3"));
+        this.music = Gdx.audio.newMusic(Gdx.files.internal("music/Poketrap_Omar.mp3"));
+
+        music.setVolume(0.4f);
+        this.music.setLooping(true);
+        this.music.play();
 
         TextureAtlas atlas = app.getAssetManager().get("player/playerTextures.atlas", TextureAtlas.class);
 
@@ -64,8 +82,20 @@ public class GameScreen extends AbstractScreen {
 
         camera = new Camera();
         world = new World(20, 20);
-        world.addObject(new PokeballWorldObject(1,1));
-        player = new Actor(world, 0, 0, animations);
+        //world.addObject(new PokeballWorldObject(1,1));
+
+        player = new Actor(world, 10, 10, animations);
+
+        for (int x = 0; x < world.getMap().getWidth(); x++) {
+            for (int y = 0; y < world.getMap().getHeight(); y++) {
+                int rn = new Random().nextInt(20);
+                if (rn == 0 && (x != player.getX() && y != player.getY()) && world.getObjectByCoord(x, y) == null) {
+                    xmasTotalTrees++;
+                    world.addObject(new TreeWorldObject(x,y));
+                }
+            }
+        }
+
 
         initUI();
 
@@ -74,11 +104,11 @@ public class GameScreen extends AbstractScreen {
         dialogueController = new DialogueController(dialogueBox, optionBox);
         multiplexer.addProcessor(playerController);
         multiplexer.addProcessor(dialogueController);
-
         dialogue = new Dialogue();
 
-        DialogueNode node1 = new DialogueNode("Hello\nNice to meet you" ,0);
-        DialogueNode node2 = new DialogueNode("The objective of this game is to get the trees\nWanna play?" ,1);
+        DialogueNode node1 = new DialogueNode("Recolecta todos los arboles que puedas" ,0);
+
+        /*DialogueNode node2 = new DialogueNode("The objective of this game is to get the trees\nWanna play?" ,1);
         DialogueNode node3 = new DialogueNode("Yes" ,2);
         DialogueNode node4 = new DialogueNode("No" ,3);
         DialogueNode node5 = new DialogueNode("Cool" ,4);
@@ -91,7 +121,8 @@ public class GameScreen extends AbstractScreen {
         dialogue.addNode(node2);
         dialogue.addNode(node3);
         dialogue.addNode(node4);
-        dialogue.addNode(node5);
+        */
+        dialogue.addNode(node1);
 
         dialogueController.startDialogue(dialogue);
     }
@@ -137,8 +168,32 @@ public class GameScreen extends AbstractScreen {
             }
         }
 
-        batch.draw(player.getSprite(), worldStartX + player.getWorldX() * Settings.SCALED_TILE_SIZE, worldStartY + player.getWorldY() * Settings.SCALED_TILE_SIZE, Settings.SCALED_TILE_SIZE, Settings.SCALED_TILE_SIZE);
+        batch.draw(player.getSprite(), worldStartX + player.getWorldX() * Settings.SCALED_TILE_SIZE, worldStartY + player.getWorldY() * Settings.SCALED_TILE_SIZE, Settings.SCALED_TILE_SIZE, Settings.SCALED_TILE_SIZE + 32);
         batch.end();
+
+
+        if(world.getObjectByCoord(player.getX(), player.getY()) != null && world.getObjectByCoord(player.getX(), player.getY()) instanceof TreeWorldObject) {
+            xmasCounter++;
+            world.deleteObjectByCoord(player.getX(), player.getY());
+
+            //AUDIO
+            this.sound.play(0.8f);
+
+            if (xmasCounter >= xmasTotalTrees) {
+                dialogue = new Dialogue();
+                DialogueNode node1 = new DialogueNode("Has recolectado todos los arboles de navidad\nHAS GANADO!!!!" ,0);
+                dialogue.addNode(node1);
+                dialogueController.startDialogue(dialogue);
+
+                this.sound = Gdx.audio.newSound(Gdx.files.internal("audio/Congratulations.mp3"));
+                this.sound.play(1.0f);
+            } else {
+                dialogue = new Dialogue();
+                DialogueNode node1 = new DialogueNode("Has recolectado " + xmasCounter + " arboles de navidad" ,0);
+                dialogue.addNode(node1);
+                dialogueController.startDialogue(dialogue);
+            }
+        }
 
         uiStage.draw();
     }
