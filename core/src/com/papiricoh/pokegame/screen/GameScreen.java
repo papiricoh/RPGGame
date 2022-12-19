@@ -208,6 +208,7 @@ public class GameScreen extends AbstractScreen {
         uiStage.addActor(root);
         Table dialogTable = new Table();
 
+
         dialogueBox = new DialogueBox(getApp().getSkin());
         dialogueBox.setVisible(false);
         optionBox = new OptionBox(getApp().getSkin());
