@@ -40,6 +40,8 @@ public class PokeGame extends Game {
 	@Override
 	public void dispose () {
 		screen.dispose();
+		skin.dispose();
+		assetManager.dispose();
 	}
 
 	public AssetManager getAssetManager() {

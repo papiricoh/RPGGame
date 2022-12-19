@@ -61,9 +61,9 @@ public class GameScreen extends AbstractScreen {
         batch = new SpriteBatch();
 
         this.sound = Gdx.audio.newSound(Gdx.files.internal("audio/item_found.mp3"));
-        this.music = Gdx.audio.newMusic(Gdx.files.internal("music/prueba.mp3"));
+        this.music = Gdx.audio.newMusic(Gdx.files.internal("music/Poketrap_Omar.mp3"));
 
-        music.setVolume(0.5f);
+        music.setVolume(0.4f);
         this.music.setLooping(true);
         this.music.play();
 
@@ -89,7 +89,7 @@ public class GameScreen extends AbstractScreen {
         for (int x = 0; x < world.getMap().getWidth(); x++) {
             for (int y = 0; y < world.getMap().getHeight(); y++) {
                 int rn = new Random().nextInt(20);
-                if (rn == 0 && (x != player.getX() && y != player.getY())) {
+                if (rn == 0 && (x != player.getX() && y != player.getY()) && world.getObjectByCoord(x, y) == null) {
                     xmasTotalTrees++;
                     world.addObject(new TreeWorldObject(x,y));
                 }
@@ -184,6 +184,9 @@ public class GameScreen extends AbstractScreen {
                 DialogueNode node1 = new DialogueNode("Has recolectado todos los arboles de navidad\nHAS GANADO!!!!" ,0);
                 dialogue.addNode(node1);
                 dialogueController.startDialogue(dialogue);
+
+                this.sound = Gdx.audio.newSound(Gdx.files.internal("audio/Congratulations.mp3"));
+                this.sound.play(1.0f);
             } else {
                 dialogue = new Dialogue();
                 DialogueNode node1 = new DialogueNode("Has recolectado " + xmasCounter + " arboles de navidad" ,0);
