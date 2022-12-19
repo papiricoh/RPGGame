@@ -27,7 +27,6 @@ import com.papiricoh.pokegame.model.world.objects.TreeWorldObject;
 import com.papiricoh.pokegame.screen.ui.DialogueBox;
 import com.papiricoh.pokegame.screen.ui.OptionBox;
 import com.papiricoh.pokegame.util.AnimationSet;
-import sun.reflect.generics.tree.Tree;
 
 import java.util.Random;
 

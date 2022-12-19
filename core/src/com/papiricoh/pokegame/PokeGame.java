@@ -9,10 +9,12 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.papiricoh.pokegame.screen.GameScreen;
+import com.papiricoh.pokegame.screen.TitleScreen;
 import com.papiricoh.pokegame.util.SkinGenerator;
 
 public class PokeGame extends Game {
 	private GameScreen screen;
+	private TitleScreen title;
 	private AssetManager assetManager;
 
 	private Skin skin;
@@ -40,6 +42,7 @@ public class PokeGame extends Game {
 	@Override
 	public void dispose () {
 		screen.dispose();
+		title.dispose();
 		skin.dispose();
 		assetManager.dispose();
 	}

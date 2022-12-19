@@ -1,6 +1,10 @@
 # POKEGAME CHRISTMAS VERSION
 A Pokemon christmas game developed in java using gradle, maven and [libGBX](https://libgdx.com/). 
 
+<hr>
+<img src="./assets/misc/pokemon_intro.gif">
+<hr>
+
 
 ## How to play:
 * Download the latest Release/Pre-Release of the [Christmas branch](https://github.com/papiricoh/PokemonGame/branches): [HERE](https://github.com/papiricoh/PokemonGame/releases/tag/xmasII)
