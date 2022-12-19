@@ -2,6 +2,8 @@ package com.papiricoh.pokegame.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -49,12 +51,21 @@ public class GameScreen extends AbstractScreen {
 
     private int xmasCounter;
     private int xmasTotalTrees;
+    Music music;
+    Sound sound;
 
 
     public GameScreen(PokeGame app) {
         super(app);
         gameViewport = new ScreenViewport();
         batch = new SpriteBatch();
+
+        this.sound = Gdx.audio.newSound(Gdx.files.internal("audio/item_found.mp3"));
+        this.music = Gdx.audio.newMusic(Gdx.files.internal("music/prueba.mp3"));
+
+        music.setVolume(0.5f);
+        this.music.setLooping(true);
+        this.music.play();
 
         TextureAtlas atlas = app.getAssetManager().get("player/playerTextures.atlas", TextureAtlas.class);
 
@@ -113,7 +124,7 @@ public class GameScreen extends AbstractScreen {
         */
         dialogue.addNode(node1);
 
-        //dialogueController.startDialogue(dialogue);
+        dialogueController.startDialogue(dialogue);
     }
 
     @Override
@@ -164,6 +175,9 @@ public class GameScreen extends AbstractScreen {
         if(world.getObjectByCoord(player.getX(), player.getY()) != null && world.getObjectByCoord(player.getX(), player.getY()) instanceof TreeWorldObject) {
             xmasCounter++;
             world.deleteObjectByCoord(player.getX(), player.getY());
+
+            //AUDIO
+            this.sound.play(0.8f);
 
             if (xmasCounter >= xmasTotalTrees) {
                 dialogue = new Dialogue();
