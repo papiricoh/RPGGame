@@ -2,7 +2,7 @@
 A Pokemon christmas game developed in java using gradle, maven and [libGBX](https://libgdx.com/). 
 
 <hr>
-<img style=" border: 6px solid black; border-radius: 12px; display: block; margin: auto" src="./assets/misc/pokemon_intro.gif">
+<img style="border: 6px solid black; border-radius: 12px; display: block; margin: auto" src="./assets/misc/pokemon_intro.gif">
 <hr>
 
 
@@ -20,3 +20,8 @@ A Pokemon christmas game developed in java using gradle, maven and [libGBX](http
 * Original Soundtrack: [Rampager](https://github.com/MilanesaBolchevique)
 * Art-Works: [ElKalto](https://github.com/ElKalto)
 * Sound Effects: Game Freak (Pokemon Creators)
+
+
+## Showcase:
+### GameScreen.java:
+<img style="border: 6px solid black; border-radius: 12px; display: block; margin: auto" src="./assets/misc/Diagram.png">
