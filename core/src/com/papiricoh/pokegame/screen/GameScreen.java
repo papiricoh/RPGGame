@@ -39,16 +39,13 @@ public class GameScreen extends AbstractScreen {
     private InputMultiplexer multiplexer;
     private PlayerController playerController;
     private Camera camera;
-
     private SpriteBatch batch;
-
     private int ui_scale = 2;
     private Stage uiStage;
     private Table root;
     private Viewport gameViewport;
     private DialogueBox dialogueBox;
     private OptionBox optionBox;
-
     private int xmasCounter;
     private int xmasTotalTrees;
     Music music;
@@ -77,8 +74,7 @@ public class GameScreen extends AbstractScreen {
 
                 atlas.findRegion("player_standing_north"), atlas.findRegion("player_standing_south"),
                 atlas.findRegion("player_standing_west"), atlas.findRegion("player_standing_east")
-
-                );
+        );
 
         camera = new Camera();
         worldManager = new WorldManager(new World(20, 20));
