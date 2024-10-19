@@ -13,6 +13,7 @@ public class WorldManager {
 
     }
 
+
     public void render(SpriteBatch batch, Camera camera) {
         float worldStartX = (float) Gdx.graphics.getWidth() / 2 - camera.getCameraX() * Settings.SCALED_TILE_SIZE;
         float worldStartY = (float) Gdx.graphics.getHeight() / 2 - camera.getCameraY() * Settings.SCALED_TILE_SIZE;
