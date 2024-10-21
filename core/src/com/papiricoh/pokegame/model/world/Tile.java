@@ -6,16 +6,25 @@ import com.papiricoh.pokegame.model.Actor;
 public class Tile {
     private Texture  texture;
     private Actor actor;
+    private TileType type;
 
     private boolean walkable = true;
 
     public Tile(String texture_path){
         this.texture = new Texture(texture_path);
+        this.type = TileType.LAND;
     }
 
     public Tile(String texture_path, boolean walkable){
         this.texture = new Texture(texture_path);
         this.walkable = walkable;
+        this.type = TileType.LAND;
+    }
+
+    public Tile(String texture_path, boolean walkable, TileType type){
+        this.texture = new Texture(texture_path);
+        this.walkable = walkable;
+        this.type = type;
     }
 
     public Actor getActor() {
@@ -28,5 +37,17 @@ public class Tile {
 
     public Texture getTexture() {
         return texture;
+    }
+
+    public boolean isWalkable() {
+        return walkable;
+    }
+
+    public void setWalkable(boolean walkable) {
+        this.walkable = walkable;
+    }
+
+    public TileType getType() {
+        return this.type;
     }
 }

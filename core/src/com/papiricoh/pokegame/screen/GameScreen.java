@@ -7,6 +7,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
@@ -20,6 +21,8 @@ import com.papiricoh.pokegame.dialogue.Dialogue;
 import com.papiricoh.pokegame.dialogue.DialogueNode;
 import com.papiricoh.pokegame.model.Actor;
 import com.papiricoh.pokegame.model.Camera;
+import com.papiricoh.pokegame.model.world.TileMap;
+import com.papiricoh.pokegame.model.world.TileType;
 import com.papiricoh.pokegame.model.world.World;
 import com.papiricoh.pokegame.model.world.WorldManager;
 import com.papiricoh.pokegame.model.world.objects.PokeballWorldObject;
@@ -81,10 +84,11 @@ public class GameScreen extends AbstractScreen {
                 );
 
         camera = new Camera();
-        worldManager = new WorldManager(new World(20, 20));
+        worldManager = new WorldManager(new World(100, 100));
         //world.addObject(new PokeballWorldObject(1,1));
 
-        player = new Actor(worldManager.getWorld(), 10, 10, animations);
+        Vector2 spawnVector = findLand(worldManager.getWorld().getMap());
+        player = new Actor(worldManager.getWorld(), (int) spawnVector.x, (int) spawnVector.y, animations);
 
         for (int x = 0; x < worldManager.getWorld().getMap().getWidth(); x++) {
             for (int y = 0; y < worldManager.getWorld().getMap().getHeight(); y++) {
@@ -125,6 +129,18 @@ public class GameScreen extends AbstractScreen {
         dialogue.addNode(node1);
 
         dialogueController.startDialogue(dialogue);
+    }
+
+    private Vector2 findLand(TileMap map) {
+        for (int x = 0; x < map.getWidth(); x++) {
+            for (int y = 0; y < map.getHeight(); y++) {
+                if (map.getTile(x, y).getType() == TileType.LAND) {
+                    return new Vector2(x, y);
+                }
+            }
+        }
+        System.err.println("Unable to find land to spawn");
+        return new Vector2(1, 1);
     }
 
     @Override

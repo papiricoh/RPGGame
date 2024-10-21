@@ -1,5 +1,7 @@
 package com.papiricoh.pokegame.model.world;
 
+import com.papiricoh.pokegame.model.world.perlin.PerlinMap;
+
 import java.util.Random;
 
 public class TileMap {
@@ -10,12 +12,16 @@ public class TileMap {
         this.width = width;
         this.height = height;
         tiles = new Tile[width][height];
+
+        PerlinMap perlinMap = new PerlinMap(new Random().nextInt(100000000));
+
         for (int i = 0; i < width; i++) { //i = x_coord
             for (int j = 0; j < height; j++) { //j = y_coord
-                if (new Random().nextInt(2) == 1) { //CONDICION DE DIBUJADO
-                    tiles[i][j] = new Tile("terrain/grass_1.png");
+                float noiseValue = perlinMap.noise(i * 0.01f, j * 0.01f);
+                if (noiseValue > 0.2) { //CONDICION DE DIBUJADO
+                    tiles[i][j] = new Tile("terrain/grass_1.png", true, TileType.LAND);
                 }else {
-                    tiles[i][j] = new Tile("terrain/grass_2.png");
+                    tiles[i][j] = new Tile("terrain/water.png", false, TileType.WATER);
                 }
             }
         }

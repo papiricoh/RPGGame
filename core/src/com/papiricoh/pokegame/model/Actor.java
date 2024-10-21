@@ -18,8 +18,8 @@ public class Actor {
     private int srcX, srcY;
     private int destX, destY;
     private float animTimer;
-    private float WALK_TIME_PER_TILE = 0.3f;
-    private float ANIM_TIME = 0.5f;
+
+    private float ANIM_TIME = 0.2f;
 
     private float walkTimer;
     private boolean moveRequestThisFrame;
@@ -100,6 +100,9 @@ public class Actor {
             if(facing == dir) {
                 moveRequestThisFrame = true;
             }
+            return false;
+        }
+        if(!world.getMap().getTile(x+dir.getDx(), y+dir.getDx()).isWalkable()) {
             return false;
         }
         if(x+dir.getDx() > world.getMap().getWidth() - 1 || x+dir.getDx() < 0 || y+dir.getDy() > world.getMap().getHeight() - 1 || y+dir.getDy() < 0) {
