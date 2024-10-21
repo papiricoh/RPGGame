@@ -102,7 +102,7 @@ public class Actor {
             }
             return false;
         }
-        if(!world.getMap().getTile(x+dir.getDx(), y+dir.getDx()).isWalkable()) {
+        if(!world.getMap().getTile(x+dir.getDx(), y+dir.getDy()).isWalkable()) {
             return false;
         }
         if(x+dir.getDx() > world.getMap().getWidth() - 1 || x+dir.getDx() < 0 || y+dir.getDy() > world.getMap().getHeight() - 1 || y+dir.getDy() < 0) {
