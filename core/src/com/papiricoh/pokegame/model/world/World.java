@@ -4,19 +4,19 @@ public class World {
 
     private int width;
     private int height;
-    private TileMap tileMap;
+    private ChunkManager chunkManager;
 
-    private WorldObject[][] worldObjects;
+    //private WorldObject[][] worldObjects;
     private int worldObjectCounter;
 
     public World(int width, int height) {
         this.width = width;
         this.height = height;
-        this.tileMap = new TileMap(width, height);
-        this.worldObjects = new WorldObject[width][height];
+        this.chunkManager = new ChunkManager();
+        //this.worldObjects = new WorldObject[width][height];
     }
 
-    public boolean addObject(WorldObject object) {
+    /*public boolean addObject(WorldObject object) {
         if(checkBorders(object.getX(), object.getY()) && this.worldObjects[object.getX()][object.getY()] == null ) {
             worldObjectCounter++;
             this.worldObjects[object.getX()][object.getY()] = object;
@@ -44,15 +44,15 @@ public class World {
 
     public boolean checkBorders(int x, int y) {
         return x < this.width && y < this.height;
-    }
+    }*/
 
-    public TileMap getMap() {
-        return this.tileMap;
+    public ChunkManager getMap() {
+        return this.chunkManager;
     }
 
     public void deleteObjectByCoord(int x, int y) {
         worldObjectCounter--;
-        this.worldObjects[x][y] = null;
+        //this.worldObjects[x][y] = null;
     }
 
     public int getWorldObjectCounter() {

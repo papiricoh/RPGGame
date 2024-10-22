@@ -13,9 +13,10 @@ import com.papiricoh.pokegame.screen.TitleScreen;
 import com.papiricoh.pokegame.util.SkinGenerator;
 
 public class PokeGame extends Game {
-	private GameScreen screen;
+	private static GameScreen gameScreen;
 	private TitleScreen title;
 	private AssetManager assetManager;
+
 
 	private Skin skin;
 	
@@ -29,8 +30,12 @@ public class PokeGame extends Game {
 
 		skin = SkinGenerator.generateSkin(assetManager);
 
-		screen = new GameScreen(this);
-		this.setScreen(screen);
+		gameScreen = new GameScreen(this);
+		this.setScreen(gameScreen);
+	}
+
+	public static GameScreen getGameScreen() {
+		return gameScreen;
 	}
 
 	@Override

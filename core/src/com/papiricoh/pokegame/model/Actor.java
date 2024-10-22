@@ -105,15 +105,15 @@ public class Actor {
         if(!world.getMap().getTile(x+dir.getDx(), y+dir.getDy()).isWalkable()) {
             return false;
         }
-        if(x+dir.getDx() > world.getMap().getWidth() - 1 || x+dir.getDx() < 0 || y+dir.getDy() > world.getMap().getHeight() - 1 || y+dir.getDy() < 0) {
+        /*if(x+dir.getDx() > world.getMap().getWidth() - 1 || x+dir.getDx() < 0 || y+dir.getDy() > world.getMap().getHeight() - 1 || y+dir.getDy() < 0) {
             return false;
-        }
+        }*/
         if (world.getMap().getTile(x+dir.getDx(), y+dir.getDy()).getActor() != null) {
             return false;
         }
-        if(world.getObjectByCoord(x+dir.getDx(), y+dir.getDy()) != null && world.getObjectByCoord(x+dir.getDx(), y+dir.getDy()).isCollision()) {
+        /*if(world.getObjectByCoord(x+dir.getDx(), y+dir.getDy()) != null && world.getObjectByCoord(x+dir.getDx(), y+dir.getDy()).isCollision()) {
             return false;
-        }
+        }*/
         initializeMove(dir);
         this.world.getMap().getTile(x,y).setActor(null);
         this.x += dir.getDx();

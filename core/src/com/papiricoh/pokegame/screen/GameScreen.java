@@ -18,20 +18,15 @@ import com.papiricoh.pokegame.Settings;
 import com.papiricoh.pokegame.controller.DialogueController;
 import com.papiricoh.pokegame.controller.PlayerController;
 import com.papiricoh.pokegame.dialogue.Dialogue;
-import com.papiricoh.pokegame.dialogue.DialogueNode;
 import com.papiricoh.pokegame.model.Actor;
 import com.papiricoh.pokegame.model.Camera;
-import com.papiricoh.pokegame.model.world.TileMap;
+import com.papiricoh.pokegame.model.world.ChunkManager;
 import com.papiricoh.pokegame.model.world.TileType;
 import com.papiricoh.pokegame.model.world.World;
 import com.papiricoh.pokegame.model.world.WorldManager;
-import com.papiricoh.pokegame.model.world.objects.PokeballWorldObject;
-import com.papiricoh.pokegame.model.world.objects.TreeWorldObject;
 import com.papiricoh.pokegame.screen.ui.DialogueBox;
 import com.papiricoh.pokegame.screen.ui.OptionBox;
 import com.papiricoh.pokegame.util.AnimationSet;
-
-import java.util.Random;
 
 public class GameScreen extends AbstractScreen {
 
@@ -87,9 +82,10 @@ public class GameScreen extends AbstractScreen {
         worldManager = new WorldManager(new World(100, 100));
         //world.addObject(new PokeballWorldObject(1,1));
 
-        Vector2 spawnVector = findLand(worldManager.getWorld().getMap());
-        player = new Actor(worldManager.getWorld(), (int) spawnVector.x, (int) spawnVector.y, animations);
+        //Vector2 spawnVector = findLand(worldManager.getWorld().getMap());
+        player = new Actor(worldManager.getWorld(), (int) 1, (int) 1, animations);
 
+        /* XMAS TREE SPAWNER
         for (int x = 0; x < worldManager.getWorld().getMap().getWidth(); x++) {
             for (int y = 0; y < worldManager.getWorld().getMap().getHeight(); y++) {
                 int rn = new Random().nextInt(20);
@@ -98,7 +94,7 @@ public class GameScreen extends AbstractScreen {
                     worldManager.getWorld().addObject(new TreeWorldObject(x,y));
                 }
             }
-        }
+        }*/
 
 
         initUI();
@@ -110,7 +106,7 @@ public class GameScreen extends AbstractScreen {
         multiplexer.addProcessor(dialogueController);
         dialogue = new Dialogue();
 
-        DialogueNode node1 = new DialogueNode("Recolecta todos los arboles que puedas" ,0);
+        //DialogueNode node1 = new DialogueNode("Recolecta todos los arboles que puedas" ,0);
 
         /*DialogueNode node2 = new DialogueNode("The objective of this game is to get the trees\nWanna play?" ,1);
         DialogueNode node3 = new DialogueNode("Yes" ,2);
@@ -126,12 +122,12 @@ public class GameScreen extends AbstractScreen {
         dialogue.addNode(node3);
         dialogue.addNode(node4);
         */
-        dialogue.addNode(node1);
+        //dialogue.addNode(node1);
 
-        dialogueController.startDialogue(dialogue);
+        //dialogueController.startDialogue(dialogue);
     }
 
-    private Vector2 findLand(TileMap map) {
+    /*private Vector2 findLand(ChunkManager map) {
         for (int x = 0; x < map.getWidth(); x++) {
             for (int y = 0; y < map.getHeight(); y++) {
                 if (map.getTile(x, y).getType() == TileType.LAND) {
@@ -141,7 +137,7 @@ public class GameScreen extends AbstractScreen {
         }
         System.err.println("Unable to find land to spawn");
         return new Vector2(1, 1);
-    }
+    }*/
 
     @Override
     public void dispose() {
@@ -173,7 +169,7 @@ public class GameScreen extends AbstractScreen {
         batch.draw(player.getSprite(), worldStartX + player.getWorldX() * Settings.SCALED_TILE_SIZE, worldStartY + player.getWorldY() * Settings.SCALED_TILE_SIZE, Settings.SCALED_TILE_SIZE, Settings.SCALED_TILE_SIZE + 32);
         batch.end();
 
-
+        /* XMAS TREE COLISSION
         if(worldManager.getWorld().getObjectByCoord(player.getX(), player.getY()) != null && worldManager.getWorld().getObjectByCoord(player.getX(), player.getY()) instanceof TreeWorldObject) {
             xmasCounter++;
             worldManager.getWorld().deleteObjectByCoord(player.getX(), player.getY());
@@ -195,7 +191,7 @@ public class GameScreen extends AbstractScreen {
                 dialogue.addNode(node1);
                 dialogueController.startDialogue(dialogue);
             }
-        }
+        }*/
 
         uiStage.draw();
     }
@@ -219,6 +215,10 @@ public class GameScreen extends AbstractScreen {
         dialogTable.add(dialogueBox);
 
         root.add(dialogTable).expand().align(Align.bottom);
+    }
+
+    public Actor getPlayer() {
+        return this.player;
     }
 
     @Override

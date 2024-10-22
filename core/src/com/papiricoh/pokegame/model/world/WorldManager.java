@@ -2,7 +2,9 @@ package com.papiricoh.pokegame.model.world;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.papiricoh.pokegame.PokeGame;
 import com.papiricoh.pokegame.Settings;
+import com.papiricoh.pokegame.model.Actor;
 import com.papiricoh.pokegame.model.Camera;
 
 public class WorldManager {
@@ -18,19 +20,24 @@ public class WorldManager {
         float worldStartX = (float) Gdx.graphics.getWidth() / 2 - camera.getCameraX() * Settings.SCALED_TILE_SIZE;
         float worldStartY = (float) Gdx.graphics.getHeight() / 2 - camera.getCameraY() * Settings.SCALED_TILE_SIZE;
 
-        int mapWidth = world.getMap().getWidth();
-        int mapHeight = world.getMap().getHeight();
-        for (int x = 0; x < mapWidth; x++) {
-            for (int y = 0; y < mapHeight; y++) {
+        Actor player = PokeGame.getGameScreen().getPlayer();
+
+        int mapInitX = player.getX() - 20;
+        int mapInitY = player.getY() - 20;
+
+        int mapWidth = player.getX() + 20;
+        int mapHeight = player.getY() + 20;
+        for (int x = mapInitX; x < mapWidth; x++) {
+            for (int y = mapInitY; y < mapHeight; y++) {
                 batch.draw(world.getMap().getTile(x, y).getTexture(), worldStartX + x * Settings.SCALED_TILE_SIZE, worldStartY + y * Settings.SCALED_TILE_SIZE, Settings.SCALED_TILE_SIZE, Settings.SCALED_TILE_SIZE);
             }
         }
 
-        for (int x = 0; x < mapWidth; x++) {
-            for (int y = 0; y < mapHeight; y++) {
-                if (world.getObjectByCoord(x, y) != null) {
+        for (int x = mapInitX; x < mapWidth; x++) {
+            for (int y = mapInitY; y < mapHeight; y++) {
+                /*if (world.getObjectByCoord(x, y) != null) {
                     batch.draw(world.getObjectByCoord(x, y).getTexture(), worldStartX + x * Settings.SCALED_TILE_SIZE, worldStartY + y * Settings.SCALED_TILE_SIZE, Settings.SCALED_TILE_SIZE, Settings.SCALED_TILE_SIZE);
-                }
+                }*/
             }
         }
     }
