@@ -1,11 +1,9 @@
 package com.papiricoh.pokegame.model.world.worldMap;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.papiricoh.pokegame.PokeGame;
-import com.papiricoh.pokegame.Settings;
 import com.papiricoh.pokegame.model.Actor;
 import com.papiricoh.pokegame.model.world.Tile;
 import com.papiricoh.pokegame.util.Assets;
@@ -61,7 +59,7 @@ public class WorldMapRenderer {
 
 
                 batch.setColor(tileColor);
-                batch.draw(Assets.pixelTexture, x * tileSize, y * tileSize, tileSize, tileSize);
+                batch.draw(Assets.pixelTexture, x * tileSize + (Gdx.graphics.getWidth() - worldlength * 4), y * tileSize + (Gdx.graphics.getHeight() - worldlength * 4), tileSize, tileSize);
 
             }
         }
