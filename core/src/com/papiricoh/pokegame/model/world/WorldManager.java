@@ -40,6 +40,9 @@ public class WorldManager {
                 }*/
             }
         }
+
+        Chunk playerChunk = world.getMap().getChunkByCoords(player.getX(), player.getY());
+        world.getMap().unloadFarChunks(playerChunk.getX(), playerChunk.getY());
     }
 
     public World getWorld() {

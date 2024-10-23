@@ -6,6 +6,10 @@ import com.papiricoh.pokegame.model.world.perlin.PerlinMap;
 public class Chunk {
     public static final int CHUNK_SIZE = 16;
     static float perlinScale = 0.01f;
+
+    private int chunkX;
+    private int chunkY;
+
     private Tile[][] tiles;
     private Tile[][] superior_tiles;
     private Tile[][] building_tiles;
@@ -16,6 +20,9 @@ public class Chunk {
         building_tiles = new Tile[CHUNK_SIZE][CHUNK_SIZE];
         superior_tiles = new Tile[CHUNK_SIZE][CHUNK_SIZE];
         worldObjects = new WorldObject[CHUNK_SIZE][CHUNK_SIZE];
+
+        this.chunkX = chunkX;
+        this.chunkY = chunkY;
         generateChunk(chunkX, chunkY, perlinMap);
     }
 
@@ -48,5 +55,13 @@ public class Chunk {
 
     public Tile getBuildingTile(int x, int y) {
         return building_tiles[x][y];
+    }
+
+    public int getX() {
+        return this.chunkX;
+    }
+
+    public int getY() {
+        return this.chunkY;
     }
 }
