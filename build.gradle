@@ -13,7 +13,6 @@ buildscript {
         classpath 'org.gretty:gretty:3.0.7'
         classpath 'com.mobidevelop.robovm:robovm-gradle-plugin:2.3.16'
 
-
     }
 }
 

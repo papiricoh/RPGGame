@@ -7,6 +7,9 @@ import com.papiricoh.pokegame.Settings;
 import com.papiricoh.pokegame.model.Actor;
 import com.papiricoh.pokegame.model.Camera;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 public class WorldManager {
     private World world;
 
@@ -40,9 +43,17 @@ public class WorldManager {
                 }*/
             }
         }
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        executor.submit(new Runnable() {
+            @Override
+            public void run() {
+                Actor player = PokeGame.getGameScreen().getPlayer();
+                Chunk playerChunk = world.getMap().getChunkByCoords(player.getX(), player.getY());
+                world.getMap().unloadFarChunks(playerChunk.getX(), playerChunk.getY());
+            }
+        });
 
-        Chunk playerChunk = world.getMap().getChunkByCoords(player.getX(), player.getY());
-        world.getMap().unloadFarChunks(playerChunk.getX(), playerChunk.getY());
+
     }
 
     public World getWorld() {
