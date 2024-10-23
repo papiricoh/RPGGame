@@ -7,9 +7,15 @@ public class Chunk {
     public static final int CHUNK_SIZE = 16;
     static float perlinScale = 0.01f;
     private Tile[][] tiles;
+    private Tile[][] superior_tiles;
+    private Tile[][] building_tiles;
+    private WorldObject[][] worldObjects;
 
     public Chunk(int chunkX, int chunkY, PerlinMap perlinMap) {
         tiles = new Tile[CHUNK_SIZE][CHUNK_SIZE];
+        building_tiles = new Tile[CHUNK_SIZE][CHUNK_SIZE];
+        superior_tiles = new Tile[CHUNK_SIZE][CHUNK_SIZE];
+        worldObjects = new WorldObject[CHUNK_SIZE][CHUNK_SIZE];
         generateChunk(chunkX, chunkY, perlinMap);
     }
 
@@ -30,5 +36,17 @@ public class Chunk {
 
     public Tile getTile(int x, int y) {
         return tiles[x][y];
+    }
+
+    public WorldObject getObject(int x, int y) {
+        return worldObjects[x][y];
+    }
+
+    public Tile getSuperiorTile(int x, int y) {
+        return superior_tiles[x][y];
+    }
+
+    public Tile getBuildingTile(int x, int y) {
+        return building_tiles[x][y];
     }
 }
