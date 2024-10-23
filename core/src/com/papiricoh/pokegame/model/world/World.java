@@ -1,5 +1,7 @@
 package com.papiricoh.pokegame.model.world;
 
+import com.papiricoh.pokegame.model.world.objects.WorldObject;
+
 public class World {
 
     private int width;

@@ -1,6 +1,7 @@
 package com.papiricoh.pokegame.model.world;
 
 
+import com.papiricoh.pokegame.model.world.objects.WorldObject;
 import com.papiricoh.pokegame.model.world.perlin.PerlinMap;
 
 public class Chunk {
