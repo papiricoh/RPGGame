@@ -35,16 +35,18 @@ public class World {
         return false;
     }
 
-    public WorldObject getObjectByCoord(int x, int y) {
-        if(checkBorders(x, y) && this.worldObjects[x][y] != null) {
-            return this.worldObjects[x][y];
-        }
-        return null;
-    }
 
     public boolean checkBorders(int x, int y) {
         return x < this.width && y < this.height;
     }*/
+
+
+    public WorldObject getObjectByCoord(int x, int y) {
+        if(chunkManager.getChunkByCoords(x, y).getObject(x, y) != null) {
+            return chunkManager.getChunkByCoords(x, y).getObject(x, y);
+        }
+        return null;
+    }
 
     public ChunkManager getMap() {
         return this.chunkManager;

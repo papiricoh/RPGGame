@@ -24,6 +24,7 @@ public class WorldManager {
         float worldStartY = (float) Gdx.graphics.getHeight() / 2 - camera.getCameraY() * Settings.SCALED_TILE_SIZE;
 
         Actor player = PokeGame.getGameScreen().getPlayer();
+        //System.out.println("Player coords: " + player.getX() + "," + player.getY());
 
         int mapInitX = player.getX() - 20;
         int mapInitY = player.getY() - 20;
@@ -38,9 +39,9 @@ public class WorldManager {
 
         for (int x = mapInitX; x < mapWidth; x++) {
             for (int y = mapInitY; y < mapHeight; y++) {
-                /*if (world.getObjectByCoord(x, y) != null) {
+                if (world.getObjectByCoord(x, y) != null) {
                     batch.draw(world.getObjectByCoord(x, y).getTexture(), worldStartX + x * Settings.SCALED_TILE_SIZE, worldStartY + y * Settings.SCALED_TILE_SIZE, Settings.SCALED_TILE_SIZE, Settings.SCALED_TILE_SIZE);
-                }*/
+                }
             }
         }
         ExecutorService executor = Executors.newSingleThreadExecutor();

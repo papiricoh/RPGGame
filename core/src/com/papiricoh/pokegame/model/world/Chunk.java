@@ -29,7 +29,11 @@ public class Chunk {
     private void generateChunk(int chunkX, int chunkY, PerlinMap perlinMap) {
         for (int x = 0; x < CHUNK_SIZE; x++) {
             for (int y = 0; y < CHUNK_SIZE; y++) {
-                float noiseValue = perlinMap.noise((chunkX * CHUNK_SIZE + x) * perlinScale, (chunkY * CHUNK_SIZE + y) * perlinScale);
+                int globalX = chunkX * CHUNK_SIZE + x;
+                int globalY = chunkY * CHUNK_SIZE + y;
+
+
+                float noiseValue = perlinMap.noise(globalX * perlinScale, globalY * perlinScale);
                 if(noiseValue > 0.27) {
                     tiles[x][y] = new Tile("terrain/dark_grass.png", true, TileType.FOREST);
                 }else if (noiseValue > 0.2) { //CONDICION DE DIBUJADO
@@ -46,7 +50,11 @@ public class Chunk {
     }
 
     public WorldObject getObject(int x, int y) {
-        return worldObjects[x][y];
+        try {
+            return worldObjects[x][y];
+        }catch (ArrayIndexOutOfBoundsException e) {
+            return null;
+        }
     }
 
     public Tile getSuperiorTile(int x, int y) {

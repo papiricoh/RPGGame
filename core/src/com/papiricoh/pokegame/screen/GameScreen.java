@@ -59,11 +59,13 @@ public class GameScreen extends AbstractScreen {
         batch = new SpriteBatch();
 
         this.sound = Gdx.audio.newSound(Gdx.files.internal("audio/item_found.mp3"));
+        /*
         this.music = Gdx.audio.newMusic(Gdx.files.internal("music/Poketrap_Omar.mp3"));
 
         music.setVolume(0.4f);
         this.music.setLooping(true);
         this.music.play();
+        */
 
         TextureAtlas atlas = app.getAssetManager().get("player/playerTextures.atlas", TextureAtlas.class);
 
