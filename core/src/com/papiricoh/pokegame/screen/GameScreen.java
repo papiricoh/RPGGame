@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -24,9 +25,14 @@ import com.papiricoh.pokegame.model.world.ChunkManager;
 import com.papiricoh.pokegame.model.world.TileType;
 import com.papiricoh.pokegame.model.world.World;
 import com.papiricoh.pokegame.model.world.WorldManager;
+import com.papiricoh.pokegame.model.world.worldMap.WorldMapRenderer;
 import com.papiricoh.pokegame.screen.ui.DialogueBox;
 import com.papiricoh.pokegame.screen.ui.OptionBox;
 import com.papiricoh.pokegame.util.AnimationSet;
+import com.papiricoh.pokegame.util.Assets;
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class GameScreen extends AbstractScreen {
 
@@ -39,6 +45,7 @@ public class GameScreen extends AbstractScreen {
     private Camera camera;
 
     private SpriteBatch batch;
+    private WorldMapRenderer worldMapRenderer;
 
     private int ui_scale = 2;
     private Stage uiStage;
@@ -51,6 +58,7 @@ public class GameScreen extends AbstractScreen {
     private int xmasTotalTrees;
     Music music;
     Sound sound;
+    private boolean showMap = false;
 
 
     public GameScreen(PokeGame app) {
@@ -80,6 +88,7 @@ public class GameScreen extends AbstractScreen {
 
                 );
 
+        Assets.load();
         camera = new Camera();
         worldManager = new WorldManager(new World(100, 100));
         //world.addObject(new PokeballWorldObject(1,1));
@@ -153,6 +162,7 @@ public class GameScreen extends AbstractScreen {
 
     @Override
     public void render(float delta) {
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         playerController.update(delta);
         dialogueController.update(delta);
 
@@ -169,8 +179,15 @@ public class GameScreen extends AbstractScreen {
         worldManager.render(batch, camera); //WorldManager.java
 
         batch.draw(player.getSprite(), worldStartX + player.getWorldX() * Settings.SCALED_TILE_SIZE, worldStartY + player.getWorldY() * Settings.SCALED_TILE_SIZE, Settings.SCALED_TILE_SIZE, Settings.SCALED_TILE_SIZE + 32);
-        batch.end();
 
+        worldMapRenderer = new WorldMapRenderer();
+
+
+        if (isShowingMap()) {
+            worldMapRenderer.renderMap(batch);
+        }
+
+        batch.end();
         /* XMAS TREE COLISSION
         if(worldManager.getWorld().getObjectByCoord(player.getX(), player.getY()) != null && worldManager.getWorld().getObjectByCoord(player.getX(), player.getY()) instanceof TreeWorldObject) {
             xmasCounter++;
@@ -243,5 +260,17 @@ public class GameScreen extends AbstractScreen {
     @Override
     public void hide() {
 
+    }
+
+    public void toggleMap() {
+        this.showMap = !this.showMap;
+    }
+
+    public boolean isShowingMap() {
+        return this.showMap;
+    }
+
+    public WorldManager getWorldManager() {
+        return this.worldManager;
     }
 }

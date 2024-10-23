@@ -2,6 +2,7 @@ package com.papiricoh.pokegame.controller;
 
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
+import com.papiricoh.pokegame.PokeGame;
 import com.papiricoh.pokegame.model.Actor;
 
 public class PlayerController extends InputAdapter {
@@ -38,6 +39,9 @@ public class PlayerController extends InputAdapter {
         }
         if(keyCode == Keys.LEFT) {
             buttonPress[DIRECTION.WEST.ordinal()] = true;
+        }
+        if(keyCode == Keys.M) {
+            PokeGame.getGameScreen().toggleMap();
         }
         return false;
     }

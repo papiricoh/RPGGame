@@ -49,7 +49,7 @@ public class ChunkManager {
 
         // Descargar los chunks marcados
         for (String key : chunksToUnload) {
-            PrintUtils.printInfo(ConsoleColors.RED + "Removing Chunk " + ConsoleColors.RESET + "in coords: " + key);
+            PrintUtils.printInfo(ConsoleColors.RED + "Unloading Chunk " + ConsoleColors.RESET + "in coords: " + key);
             loadedChunks.remove(key);
         }
     }

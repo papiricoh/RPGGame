@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.papiricoh.pokegame.screen.GameScreen;
 import com.papiricoh.pokegame.screen.TitleScreen;
+import com.papiricoh.pokegame.util.Assets;
 import com.papiricoh.pokegame.util.SkinGenerator;
 
 public class PokeGame extends Game {
@@ -50,6 +51,8 @@ public class PokeGame extends Game {
 		//title.dispose();
 		skin.dispose();
 		assetManager.dispose();
+
+		Assets.dispose();
 	}
 
 	public AssetManager getAssetManager() {
