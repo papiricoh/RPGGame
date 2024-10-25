@@ -9,7 +9,7 @@ import com.papiricoh.pokegame.model.world.Tile;
 import com.papiricoh.pokegame.util.Assets;
 
 public class WorldMapRenderer {
-    private static int worldlength = 64;
+    private static int worldlength = 128;
     private Tile[][] worldTiles;
 
     public WorldMapRenderer() {
@@ -35,7 +35,7 @@ public class WorldMapRenderer {
     }
 
     public void renderMap(SpriteBatch batch) {
-        int tileSize = 4;
+        int tileSize = 1;
 
         for (int x = 0; x < worldlength; x++) {
             for (int y = 0; y < worldlength; y++) {
@@ -44,14 +44,17 @@ public class WorldMapRenderer {
 
 
                 switch (tile.getType()) {
-                    case WATER:
+                    case DEEP_WATER:
                         tileColor = Color.BLUE;
+                        break;
+                    case WATER:
+                        tileColor = Color.SKY;
                         break;
                     case LAND:
                         tileColor = Color.GREEN;
                         break;
                     case FOREST:
-                        tileColor = Color.DARK_GRAY;
+                        tileColor = Color.FOREST;
                         break;
                     default:
                         tileColor = Color.GRAY;
@@ -59,7 +62,7 @@ public class WorldMapRenderer {
 
 
                 batch.setColor(tileColor);
-                batch.draw(Assets.pixelTexture, x * tileSize + (Gdx.graphics.getWidth() - worldlength * 4), y * tileSize + (Gdx.graphics.getHeight() - worldlength * 4), tileSize, tileSize);
+                batch.draw(Assets.pixelTexture, x * tileSize + (Gdx.graphics.getWidth() - worldlength ), y * tileSize + (Gdx.graphics.getHeight() - worldlength ), tileSize, tileSize);
 
             }
         }

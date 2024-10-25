@@ -93,8 +93,8 @@ public class GameScreen extends AbstractScreen {
         worldManager = new WorldManager(new World(100, 100));
         //world.addObject(new PokeballWorldObject(1,1));
 
-        //Vector2 spawnVector = findLand(worldManager.getWorld().getMap());
-        player = new Actor(worldManager.getWorld(), (int) 1, (int) 1, animations);
+        Vector2 spawnVector = findLand(worldManager.getWorld().getMap());
+        player = new Actor(worldManager.getWorld(), (int) spawnVector.x, (int) spawnVector.y, animations);
 
         /* XMAS TREE SPAWNER
         for (int x = 0; x < worldManager.getWorld().getMap().getWidth(); x++) {
@@ -138,17 +138,18 @@ public class GameScreen extends AbstractScreen {
         //dialogueController.startDialogue(dialogue);
     }
 
-    /*private Vector2 findLand(ChunkManager map) {
-        for (int x = 0; x < map.getWidth(); x++) {
-            for (int y = 0; y < map.getHeight(); y++) {
+
+    private Vector2 findLand(ChunkManager map) {
+        for (int x = ChunkManager.boundaries / 2 - 100; x < ChunkManager.boundaries; x++) {
+            for (int y = ChunkManager.boundaries / 2 - 100; y < ChunkManager.boundaries; y++) {
                 if (map.getTile(x, y).getType() == TileType.LAND) {
                     return new Vector2(x, y);
                 }
             }
         }
         System.err.println("Unable to find land to spawn");
-        return new Vector2(1, 1);
-    }*/
+        return new Vector2(0, 0);
+    }
 
     @Override
     public void dispose() {

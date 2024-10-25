@@ -11,6 +11,7 @@ import java.util.Random;
 public class ChunkManager {
     private static int mainSeed = 100;
     private static int unloadDistance = 4;
+    public static int boundaries = 20000;
     static PerlinMap perlinMap;
     private HashMap<String, Chunk> loadedChunks;
 

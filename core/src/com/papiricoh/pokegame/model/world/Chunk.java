@@ -39,8 +39,10 @@ public class Chunk {
                     tiles[x][y] = new Tile("terrain/dark_grass.png", true, TileType.FOREST);
                 }else if (noiseValue > 0.2) { //CONDICION DE DIBUJADO
                     tiles[x][y] = new Tile("terrain/grass_1.png", true, TileType.LAND);
-                }else {
+                }else if(noiseValue > 0.1){
                     tiles[x][y] = new Tile("terrain/water.png", true, TileType.WATER);
+                }else {
+                    tiles[x][y] = new Tile("terrain/deep_water.png", true, TileType.DEEP_WATER);
                 }
             }
         }
