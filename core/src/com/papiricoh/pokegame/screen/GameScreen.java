@@ -107,7 +107,6 @@ public class GameScreen extends AbstractScreen {
             }
         }*/
 
-
         initUI();
 
         multiplexer = new InputMultiplexer();
