@@ -25,11 +25,15 @@ import com.papiricoh.rpggame.model.world.ChunkManager;
 import com.papiricoh.rpggame.model.world.TileType;
 import com.papiricoh.rpggame.model.world.World;
 import com.papiricoh.rpggame.model.world.WorldManager;
-import com.papiricoh.rpggame.model.world.worldMap.WorldMapRenderer;
+import com.papiricoh.rpggame.model.world.miniMap.MiniMapRenderer;
 import com.papiricoh.rpggame.screen.ui.DialogueBox;
 import com.papiricoh.rpggame.screen.ui.OptionBox;
 import com.papiricoh.rpggame.util.AnimationSet;
 import com.papiricoh.rpggame.util.Assets;
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class GameScreen extends AbstractScreen {
 
@@ -42,7 +46,7 @@ public class GameScreen extends AbstractScreen {
     private Camera camera;
 
     private SpriteBatch batch;
-    private WorldMapRenderer worldMapRenderer;
+    private MiniMapRenderer miniMapRenderer;
 
     private int ui_scale = 2;
     private Stage uiStage;
@@ -55,13 +59,14 @@ public class GameScreen extends AbstractScreen {
     private int xmasTotalTrees;
     Music music;
     Sound sound;
-    private boolean showMap = false;
+    private AtomicBoolean showMap = new AtomicBoolean();
 
 
     public GameScreen(RPGGame app) {
         super(app);
         gameViewport = new ScreenViewport();
         batch = new SpriteBatch();
+        showMap.set(false);
 
         this.sound = Gdx.audio.newSound(Gdx.files.internal("audio/item_found.mp3"));
         /*
@@ -177,11 +182,12 @@ public class GameScreen extends AbstractScreen {
 
         batch.draw(player.getSprite(), worldStartX + player.getWorldX() * Settings.SCALED_TILE_SIZE, worldStartY + player.getWorldY() * Settings.SCALED_TILE_SIZE, Settings.SCALED_TILE_SIZE, Settings.SCALED_TILE_SIZE + 32);
 
-        worldMapRenderer = new WorldMapRenderer();
+        miniMapRenderer = new MiniMapRenderer();
 
 
-        if (isShowingMap()) {
-            worldMapRenderer.renderMap(batch);
+        if (isShowingMap().get()) {
+            miniMapRenderer.initTiles();
+            miniMapRenderer.renderMap(batch);
         }
 
         batch.end();
@@ -260,10 +266,10 @@ public class GameScreen extends AbstractScreen {
     }
 
     public void toggleMap() {
-        this.showMap = !this.showMap;
+        this.showMap.set(!this.showMap.get());
     }
 
-    public boolean isShowingMap() {
+    public AtomicBoolean isShowingMap() {
         return this.showMap;
     }
 

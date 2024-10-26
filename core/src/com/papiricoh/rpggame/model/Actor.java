@@ -2,7 +2,10 @@ package com.papiricoh.rpggame.model;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Interpolation;
+import com.badlogic.gdx.math.Vector2;
+import com.papiricoh.rpggame.RPGGame;
 import com.papiricoh.rpggame.controller.DIRECTION;
+import com.papiricoh.rpggame.model.world.Chunk;
 import com.papiricoh.rpggame.model.world.World;
 import com.papiricoh.rpggame.util.AnimationSet;
 
@@ -149,6 +152,11 @@ public class Actor {
 
     public int getY() {
         return y;
+    }
+
+    public Vector2 getChunkCoords() {
+        Chunk chunk = RPGGame.getGameScreen().getWorldManager().getWorld().getMap().getChunk(getX(), getY());
+        return new Vector2(chunk.getX(), chunk.getY());
     }
 
     public TextureRegion getSprite() {

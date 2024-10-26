@@ -52,6 +52,10 @@ public class Chunk {
         return tiles[x][y];
     }
 
+    public Tile getCenterTile() {
+        return tiles[8][8];
+    }
+
     public WorldObject getObject(int x, int y) {
         try {
             return worldObjects[x][y];

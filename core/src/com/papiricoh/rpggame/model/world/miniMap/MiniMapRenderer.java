@@ -1,4 +1,4 @@
-package com.papiricoh.rpggame.model.world.worldMap;
+package com.papiricoh.rpggame.model.world.miniMap;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -8,12 +8,11 @@ import com.papiricoh.rpggame.model.Actor;
 import com.papiricoh.rpggame.model.world.Tile;
 import com.papiricoh.rpggame.util.Assets;
 
-public class WorldMapRenderer {
-    private static int worldlength = 128;
+public class MiniMapRenderer {
+    private static int worldlength = 64;
     private Tile[][] worldTiles;
 
-    public WorldMapRenderer() {
-        this.worldTiles = getWorldTiles();
+    public MiniMapRenderer() {
     }
 
     private Tile[][] getWorldTiles() {
@@ -34,8 +33,12 @@ public class WorldMapRenderer {
         return tiles;
     }
 
+    public void initTiles() {
+        this.worldTiles = getWorldTiles();
+    }
+
     public void renderMap(SpriteBatch batch) {
-        int tileSize = 1;
+        int tileSize = 4;
 
         for (int x = 0; x < worldlength; x++) {
             for (int y = 0; y < worldlength; y++) {
@@ -62,7 +65,7 @@ public class WorldMapRenderer {
 
 
                 batch.setColor(tileColor);
-                batch.draw(Assets.pixelTexture, x * tileSize + (Gdx.graphics.getWidth() - worldlength ), y * tileSize + (Gdx.graphics.getHeight() - worldlength ), tileSize, tileSize);
+                batch.draw(Assets.pixelTexture, x * tileSize, y * tileSize, tileSize, tileSize);
 
             }
         }
